@@ -81,8 +81,10 @@ modules:
         - dotnet-sdk-9.0
 
         # Virtualization
-        - docker-cli
-        - docker-compose
+        # Docker is already part of bluefin, installing it manually errors out.
+        # Leaving it here should I swap base images later on.
+        # - docker-cli
+        # - docker-compose
         - podman
         - podman-compose
 
