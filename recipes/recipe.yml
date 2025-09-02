@@ -1,9 +1,11 @@
 ---
-name: ouroborOS
-description: Custom ublue spin.
+name: ouroboros
+description: OuroborOS, a custom ublue spin.
 
-base-image: ghcr.io/ublue-os/bluefin-main
-image-version: latest
+# The PC will need nvidia; the laptop probably not. Need to look into splitting
+# it somehow.
+base-image: ghcr.io/ublue-os/bluefin-dx-nvidia
+image-version: stable
 
 modules:
   - type: files
@@ -11,12 +13,7 @@ modules:
       - source: system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
         # TODO: create docker daemon.json with network overrides (or get used to
-        # podman)
-
-  - type: rpm-ostree
-    remove:
-      - firefox
-      - firefox-langpacks
+        # podman) and other system config stuff.
 
   # TODO: boxes, tuxguitar, eyedropper
   - type: default-flatpaks
@@ -26,6 +23,18 @@ modules:
         install:
           - org.mozilla.firefox
           - org.gnome.Loupe
+          - org.gnome.Boxes
+          - org.gnome.Extensions
+          - ar.com.tuxguitar.TuxGuitar
+          - org.jabref.jabref
+          - com.github.finefindus.eyedropper
+          - com.valvesoftware.Steam
+          - md.obsidian.Obsidian
+          - org.kde.filelight
+          - org.chromium.Chromium
+          - org.signal.Signal
+          - com.spotify.Client
+          - org.libreoffice.LibreOffice
       - scope: user
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
@@ -44,12 +53,6 @@ modules:
         - gnome-tweaks
         # TODO: do we want this terminal instead of the built-in of bluefin?
         - gnome-terminal
-        - gnome-extensions-app
-        # TODO: move these to the gnome-extensions module
-        - gnome-shell-extension-blur-my-shell
-        - gnome-shell-extension-caffeine
-        - gnome-shell-extension-dash-to-dock
-        - gnome-shell-extension-runcat
 
         # CLI
         - bat
@@ -62,34 +65,47 @@ modules:
         - zip
         - jq
 
-        # Apps
-        # TODO: move these to flatpaks where possible
-        - chromium
-        - obsidian
-        - signal-desktop
-        - kdePackages.filelight
-        - spotify
-        - libreoffice
-        - jabref
-
         # Latex
         - hunspell
-        - hunspellDicts.en_US
-        - hunspellDicts.en_GB-large
-        - texliveFull
+        - hunspell-en
+        - hunspell-en-US
+        - hunspell-en-GB
+        - texlive-scheme-full
         # TODO: check if java is needed for ltex
 
 
-        # Fonts
-        # TODO: there is a font module
-        - fira-code
-        - fira-code-symbols
-
-        # Dev
-        - python3Full
-        - duckdb
+        # Dev stuff. This is for some quick-and-dirty scripting. Full-on
+        # projects go into a container.
+        - python3
         - distrobox
-        # TODO: dotnet
+        - dotnet-sdk-9.0
+
+        # Virtualization
+        - docker-cli
+        - docker-compose
+        - podman
+        - podman-compose
+
+  - type: gnome-extensions
+    install:
+      - Blur my Shell
+      - AppIndicator and KStatusNotifierItem Support
+      - Caffeine
+      - Dash to Dock
+      - RunCat
+
+  - type: fonts
+    fonts:
+      nerd-fonts:
+        - FiraCode
+
+  - type: containerfile
+    snippets:
+      # DuckDB isn't available with dnf yet, and I don't want to add some random
+      # copr. No fan of the pipe into sh, but it'll do for now..
+      # TODO: customize this and install to /usr/local/bin instead. See
+      # https://duckdb.org/docs/installation for download link.
+      - RUN curl https://install.duckdb.org | sh
 
 # TODO: set up qwerty-fr layout
 # https://github.com/qwerty-fr/qwerty-fr/issues/49#issuecomment-1405254634 if needed
