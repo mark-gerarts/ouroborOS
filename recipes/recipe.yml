@@ -4,6 +4,8 @@ description: OuroborOS, a custom ublue spin.
 
 # The PC will need nvidia; the laptop probably not. Need to look into splitting
 # it somehow.
+# TODO: start from core image instead
+# TODO: matrix with regular + nvidia (see docs)
 base-image: ghcr.io/ublue-os/bluefin-dx-nvidia
 image-version: stable
 
@@ -48,6 +50,7 @@ modules:
         - wget
         - git
         - git-delta
+        # TODO: inotify-tools
 
         # Gnome stuff
         - gnome-tweaks

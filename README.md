@@ -10,4 +10,10 @@ Building:
 ublue build recipes/recipe.yml
 ```
 
-More info : [bluebuild docs](https://blue-build.org/learn/getting-started/).
+More info: [bluebuild docs](https://blue-build.org/learn/getting-started/).
+
+## TODO
+
+- Document installation/usage
+- Wrap up todos from recipe
+- Use custom logo
