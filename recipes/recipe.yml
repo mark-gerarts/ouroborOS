@@ -4,10 +4,9 @@ description: OuroborOS, a custom ublue spin.
 
 # The PC will need nvidia; the laptop probably not. Need to look into splitting
 # it somehow.
-# TODO: start from core image instead
 # TODO: matrix with regular + nvidia (see docs)
-base-image: ghcr.io/ublue-os/bluefin-dx-nvidia
-image-version: stable
+base-image: ghcr.io/ublue-os/silverblue-main
+image-version: latest
 
 modules:
   - type: files
@@ -17,7 +16,6 @@ modules:
         # TODO: create docker daemon.json with network overrides (or get used to
         # podman) and other system config stuff.
 
-  # TODO: boxes, tuxguitar, eyedropper
   - type: default-flatpaks
     configurations:
       - notify: true
@@ -41,7 +39,6 @@ modules:
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
 
-  # TODO: this is copy-paste, package names might not match dnf
   - type: dnf
     install:
       packages:
@@ -50,7 +47,8 @@ modules:
         - wget
         - git
         - git-delta
-        # TODO: inotify-tools
+        - inotify-tools
+        - unzip
 
         # Gnome stuff
         - gnome-tweaks
@@ -84,10 +82,8 @@ modules:
         - dotnet-sdk-9.0
 
         # Virtualization
-        # Docker is already part of bluefin, installing it manually errors out.
-        # Leaving it here should I swap base images later on.
-        # - docker-cli
-        # - docker-compose
+        - docker-cli
+        - docker-compose
         - podman
         - podman-compose
 
@@ -104,13 +100,9 @@ modules:
       nerd-fonts:
         - FiraCode
 
-  - type: containerfile
-    snippets:
-      # DuckDB isn't available with dnf yet, and I don't want to add some random
-      # copr. No fan of the pipe into sh, but it'll do for now..
-      # TODO: customize this and install to /usr/local/bin instead. See
-      # https://duckdb.org/docs/installation for download link.
-      - RUN curl https://install.duckdb.org | sh
+  - type: script
+    scripts:
+      - install_duckdb.sh
 
 # TODO: set up qwerty-fr layout
 # https://github.com/qwerty-fr/qwerty-fr/issues/49#issuecomment-1405254634 if needed
