@@ -1,6 +1,6 @@
 ---
-name: ouroboros
-description: OuroborOS, a custom ublue spin.
+name: ouroboros-nvidia
+description: OuroborOS, a custom ublue spin (nvidia drivers included).
 
 base-image: ghcr.io/ublue-os/silverblue-main
 image-version: latest

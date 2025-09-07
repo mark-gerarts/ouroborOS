@@ -1,10 +1,9 @@
 name: bluebuild
 on:
-  # No need to run on schedule for now
-  # schedule:
-  #  - cron:
-  #      "00 06 * * *" # build at 06:00 UTC every day
-  #      # (20 minutes after last ublue images start building)
+  schedule:
+    # Ublue images start building at 5:40 every day; start 20 minutes later.
+    # Also, 1x per week is plenty imo. Build on Saturday only.
+    - cron: "00 06 * * 6"
   push:
     paths-ignore: # don't rebuild if only documentation has changed
       - "**.md"
@@ -29,6 +28,7 @@ jobs:
         recipe:
           # !! Add your recipes here
           - recipe.yml
+          - recipe-nvidia.yml
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
