@@ -103,9 +103,9 @@ modules:
   - type: script
     scripts:
       - install_duckdb.sh
-
-# TODO: set up qwerty-fr layout
-# https://github.com/qwerty-fr/qwerty-fr/issues/49#issuecomment-1405254634 if needed
+      # TODO: after an install explore this to automate it (non-user based)
+      # https://github.com/qwerty-fr/qwerty-fr/issues/49#issuecomment-1405254634
+      - install_qwertyfr.sh
 
 # TODO: check gschema-overrides for interesting stuff.
 
