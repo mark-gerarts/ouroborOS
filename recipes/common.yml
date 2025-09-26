@@ -67,7 +67,7 @@ modules:
         # the repo that can be run onetime on a fresh install that sets up a
         # distrobox for latex and exports the binary (and possibly does other
         # first-time-use things).
-        - texlive-scheme-full
+        # - texlive-scheme-full
         # TODO: check if java is needed for ltex
 
 
