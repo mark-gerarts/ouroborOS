@@ -1,5 +1,7 @@
 # OuroborOS
 
+⚠️ While an interesting side venture, I'm sticking with [NixOS/Alpine](https://github.com/mark-gerarts/m).
+
 A custom ublue spin that mostly just wraps some stuff that I like to have
 preinstalled. Based on/kept in sync for a bit with [my Nixos
 config](https://github.com/mark-gerarts/m).
